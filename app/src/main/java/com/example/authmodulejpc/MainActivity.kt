@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,9 +13,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -139,6 +142,7 @@ fun PageName(
     }
 }
 
+
 @Composable
 fun InputFieldWithLabel(
     label: String,
@@ -151,36 +155,38 @@ fun InputFieldWithLabel(
         modifier = Modifier
             .padding(0.dp)
     ) {
+
         Text(
             text = label,
-            modifier = Modifier.padding(bottom = 4.dp),
             fontWeight = FontWeight.Medium,
             fontSize = 14.sp,
-            color = MaterialTheme.colorScheme.primary,
+            color = MaterialTheme.colorScheme.primary
         )
-        TextField(
+
+        Spacer(modifier = Modifier.size(15.dp))
+
+        BasicTextField(
             value = textFieldValue,
-            onValueChange = {
-                textFieldValue = it
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = keyboard),
-            modifier =
-            Modifier
-                .fillMaxWidth()
-                .background(Color.White)
-                .padding(0.dp),
             singleLine = true,
-            colors =
-            TextFieldDefaults.colors(
-                unfocusedContainerColor = Color.White,
-                focusedContainerColor = Color.White,
-            ),
-            placeholder = {
-                Text(
-                    text = hintText,
-                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
-                )
+            onValueChange = { textFieldValue = it },
+            decorationBox = { innerTextField ->
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color.White)
+                        .padding(0.dp)
+                ) {
+                    if (textFieldValue.text.isEmpty()) {
+                        Text(
+                            text = hintText,
+                            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
+                            fontSize = MaterialTheme.typography.bodyMedium.fontSize // Adjust font size as needed
+                        )
+                    }
+                    innerTextField()
+                }
             },
+
         )
     }
 }
