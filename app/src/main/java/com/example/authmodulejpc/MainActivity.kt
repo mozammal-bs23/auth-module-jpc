@@ -23,6 +23,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,7 +39,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -57,12 +57,10 @@ class MainActivity : ComponentActivity() {
                     color = Color.White,
                 ) {
                     Column (
-                       verticalArrangement = Arrangement.SpaceBetween,
                         modifier = Modifier.padding(24.dp),
                     ){
-
+                        Spacer(modifier = Modifier.weight(1f))
                         Column {
-                            Spacer(modifier = Modifier.size(101.dp))
                             PageName(
                                 pageTitle = "Log in to Authy",
                                 pageSubTitle = "Welcome back! Sign in using your social account or email to continue us",
@@ -139,16 +137,38 @@ class MainActivity : ComponentActivity() {
                                     )
                                 }
                             }
-                        }
 
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        ) {
+                            Spacer(modifier = Modifier.size(30.dp))
+
+                            Row (
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceEvenly
+                            ){
+                                Divider(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .height(1.dp)
+                                )
+
+                                Text(
+                                    text = "OR",
+                                    Modifier.padding(
+                                        horizontal = 15.dp,
+                                    )
+                                )
+
+                                Divider(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .height(1.dp)
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.size(30.dp))
+                        Column {
                             InputFieldWithLabel(
                                 label = "Email",
                                 hintText = "Enter your email",
-                                keyboard = KeyboardType.Email,
                             )
                             Box(modifier = Modifier.size(30.dp))
 
@@ -156,7 +176,6 @@ class MainActivity : ComponentActivity() {
                             InputFieldWithLabel(
                                 label = "Password",
                                 hintText = "Enter your password",
-                                keyboard = KeyboardType.Password,
                             )
 
                             Box(modifier = Modifier.size(10.dp))
@@ -198,6 +217,7 @@ class MainActivity : ComponentActivity() {
                             }
 
                         }
+                        Spacer(modifier = Modifier.weight(1f))
                         Column {
                             Button(
                                 onClick = { checked = !checked },
@@ -229,8 +249,6 @@ class MainActivity : ComponentActivity() {
                                 modifier = Modifier
                                     .align(alignment = Alignment.CenterHorizontally)
                             )
-
-                            Spacer(Modifier.height(37.dp))
                         }
                     }
 
@@ -272,7 +290,6 @@ fun PageName(
 fun InputFieldWithLabel(
     label: String,
     hintText: String,
-    keyboard: KeyboardType,
 ) {
     var textFieldValue by remember { mutableStateOf(TextFieldValue(text = "")) }
 
