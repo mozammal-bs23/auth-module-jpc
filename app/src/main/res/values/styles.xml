@@ -1,0 +1,7 @@
+<resources>
+
+    <style name="Widget.Theme.AuthModuleJPC.MyView" parent="">
+        <item name="android:background">@color/</item>
+        <item name="exampleColor">@color/light_blue_400</item>
+    </style>
+</resources>
