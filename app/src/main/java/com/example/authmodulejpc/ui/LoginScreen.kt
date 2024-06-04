@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -39,12 +40,17 @@ import com.example.authmodulejpc.ui.components.InputFieldWithLabel
 import com.example.authmodulejpc.ui.components.PageName
 
 @Composable
-fun LoginScreen(){
+fun LoginScreen(
+    onNavigateToDashboard: (Int) -> Unit,
+    onNavigateToForgotPassword: () -> Unit,
+    onNavigateToSignUp: () -> Unit,
+){
     var checked by remember { mutableStateOf(false) }
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
+            .padding(all = 24.dp)
     ) {
         Spacer(Modifier.weight(1f))
         Column{
@@ -155,14 +161,14 @@ fun LoginScreen(){
         Column {
             InputFieldWithLabel(
                 label = "Email",
-                hintText = "Enter your email",
+                hintText = "",
             )
             Box(modifier = Modifier.size(30.dp))
 
 
             InputFieldWithLabel(
                 label = "Password",
-                hintText = "Enter your password",
+                hintText = "",
             )
 
             Box(modifier = Modifier.size(10.dp))
@@ -206,6 +212,9 @@ fun LoginScreen(){
                     fontWeight = FontWeight.Medium,
                     fontSize = 14.sp,
                     color = Color(0xFF24786D),
+                    modifier = Modifier.clickable {
+                        onNavigateToForgotPassword();
+                    }
                 )
             }
 
@@ -213,7 +222,11 @@ fun LoginScreen(){
         Spacer(Modifier.weight(1f))
         Column {
             Button(
-                onClick = { checked = !checked },
+                onClick =
+                {
+                    onNavigateToDashboard
+
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(60.dp),
@@ -241,6 +254,9 @@ fun LoginScreen(){
                 color = Color(0xFF24786D),
                 modifier = Modifier
                     .align(alignment = Alignment.CenterHorizontally)
+                    .clickable {
+                        onNavigateToSignUp()
+                    }
             )
         }
     }

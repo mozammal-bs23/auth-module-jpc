@@ -22,7 +22,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.authmodulejpc.ui.ChangePasswordScreen
+import com.example.authmodulejpc.ui.EmailConfirmationScreen
+import com.example.authmodulejpc.ui.ForgotPasswordScreen
 import com.example.authmodulejpc.ui.LoginScreen
+import com.example.authmodulejpc.ui.ResetPasswordScreen
+import com.example.authmodulejpc.ui.SignUpScreen
 
 enum class AuthModuleScreen(@StringRes val title: Int) {
     Start(title = R.string.login),
@@ -31,6 +36,7 @@ enum class AuthModuleScreen(@StringRes val title: Int) {
     ForgotPassword(title = R.string.forgot_password),
     ResetPassword(title = R.string.reset_password),
     UpdateProfile(title = R.string.update_profile),
+    ChangePassword(title = R.string.change_password),
     OTP(title = R.string.otp_sent),
 }
 
@@ -82,7 +88,44 @@ fun AuthModuleApp(
                 .padding(innerPadding)
         ) {
             composable(route = AuthModuleScreen.Start.name) {
-                LoginScreen()
+                LoginScreen(
+                    onNavigateToSignUp = {
+                        navController.navigate(AuthModuleScreen.Signup.name)
+                    },
+                    onNavigateToForgotPassword = {
+                        navController.navigate(AuthModuleScreen.ForgotPassword.name)
+                    },
+                    onNavigateToDashboard = {
+                        navController.navigate(AuthModuleScreen.Dashboard.name)
+                    }
+                )
+            }
+
+            composable(route = AuthModuleScreen.Signup.name) {
+                SignUpScreen(
+                    onNavigateToLogin = {
+                        navController.navigate(AuthModuleScreen.Start.name)
+                    },
+                    onNavigateToOTP = {
+                        navController.navigate(AuthModuleScreen.OTP.name)
+                    }
+                )
+            }
+
+            composable(route = AuthModuleScreen.ForgotPassword.name) {
+                ForgotPasswordScreen()
+            }
+
+            composable(route = AuthModuleScreen.OTP.name) {
+                EmailConfirmationScreen()
+            }
+
+            composable(route = AuthModuleScreen.ResetPassword.name) {
+                ResetPasswordScreen()
+            }
+
+            composable(route = AuthModuleScreen.ChangePassword.name) {
+                ChangePasswordScreen()
             }
         }
     }

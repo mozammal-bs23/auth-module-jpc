@@ -1,12 +1,15 @@
 package com.example.authmodulejpc.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -79,7 +82,7 @@ fun InputFieldWithLabel(
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(Color.White)
-                        .height(60.dp)
+                        .height(30.dp)
                         .drawBehind {
                             drawLine(
                                 color = Color.Gray.copy(alpha = 0.5f),
@@ -98,7 +101,7 @@ fun InputFieldWithLabel(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(
-                                    vertical = 15.dp,
+                                    vertical = 0.dp,
                                 ),
 
                             )
@@ -107,7 +110,7 @@ fun InputFieldWithLabel(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(
-                                vertical = 15.dp,
+                                vertical = 5.dp,
                             ),
                     ) {
                         innerTextField()
