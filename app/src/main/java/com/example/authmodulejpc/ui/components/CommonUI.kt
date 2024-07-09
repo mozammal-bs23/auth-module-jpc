@@ -12,6 +12,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -58,8 +59,8 @@ fun PageName(
 fun InputFieldWithLabel(
     label: String,
     hintText: String,
+    textFieldValue: MutableState<String>,
 ) {
-    var textFieldValue by remember { mutableStateOf(TextFieldValue(text = "")) }
 
     Column(
         modifier = Modifier
@@ -74,9 +75,9 @@ fun InputFieldWithLabel(
         )
 
         BasicTextField(
-            value = textFieldValue,
+            value = textFieldValue.value,
             singleLine = true,
-            onValueChange = { textFieldValue = it },
+            onValueChange = { textFieldValue.value = it },
             decorationBox = { innerTextField ->
                 Box(
                     modifier = Modifier
@@ -92,7 +93,7 @@ fun InputFieldWithLabel(
                         }
                     ,
                 ) {
-                    if (textFieldValue.text.isEmpty()) {
+                    if (textFieldValue.value.isEmpty()) {
                         Text(
                             text = hintText,
                             color = Color(0xFF24786D).copy(alpha = 0.2f),

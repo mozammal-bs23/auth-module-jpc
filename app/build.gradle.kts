@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -76,4 +78,21 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     implementation("androidx.compose.ui:ui-tooling-preview")
 
+    // hilt dependency injection
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
+
+    // retrofit for api calls
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+
+    // converter for gson
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // coil compose for loading images
+    implementation("io.coil-kt:coil-compose:2.6.0")
+
+
+}
+kapt {
+    correctErrorTypes = true
 }
