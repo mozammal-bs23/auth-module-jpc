@@ -40,7 +40,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.authmodulejpc.R
-import com.example.authmodulejpc.data.api.UserApi
+import com.example.authmodulejpc.api.UserApi
 import com.example.authmodulejpc.data.model.RequestModel
 import com.example.authmodulejpc.data.model.ResponseModel
 import com.example.authmodulejpc.ui.components.InputFieldWithLabel
@@ -60,6 +60,7 @@ fun LoginScreen(
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
     val profileState = remember { mutableStateOf<ResponseModel?>(null) }
+    val errorState = remember { mutableStateOf<String?>(null) } 
 
 
     Column(
@@ -190,6 +191,9 @@ fun LoginScreen(
             )
 
             Box(modifier = Modifier.size(10.dp))
+            errorState.value?.let {
+            Text(text = it, color = androidx.compose.ui.graphics.Color.Red)
+        }
 
             Row(
                 modifier = Modifier
@@ -243,10 +247,12 @@ fun LoginScreen(
                 onClick =
                 {
                     Log.d("LoginScreen", "Email: ${email.value}, Password: ${password.value}");
-                    sendRequest(email = email.value,
-                        password = password.value,
-                        profileState = profileState,
-                        );
+                    sendRequest(
+                        email = email.value, 
+                        password = password.value, 
+                        profileState = profileState
+                    );
+
 
                 },
                 modifier = Modifier

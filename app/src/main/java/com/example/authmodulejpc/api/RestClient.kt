@@ -1,12 +1,20 @@
-package com.example.authmodulejpc.data.api
+// RestClient.kt
+package com.example.authmodulejpc.api
 
-import com.example.authmodulejpc.data.model.RequestModel
-import com.example.authmodulejpc.data.model.ResponseModel
-import retrofit2.Call
-import retrofit2.http.Body
-import retrofit2.http.POST
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
-interface UserApi {
-    @POST("login")
-    fun login(@Body requestModel: RequestModel): Call<ResponseModel>
+object RestClient {
+    private const val BASE_URL = "http://34.72.136.54:4067/api/v1/auth/"
+
+    val retrofit: Retrofit = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+
+    val api: UserApi = retrofit.create(UserApi::class.java)
 }
+
+
+
+
