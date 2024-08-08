@@ -91,6 +91,9 @@ dependencies {
     // coil compose for loading images
     implementation("io.coil-kt:coil-compose:2.6.0")
 
+    //timber for log
+    implementation("com.jakewharton.timber:timber:5.0.1")
+
 
 }
 kapt {

@@ -49,6 +49,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
+import timber.log.Timber
 
 @Composable
 fun LoginScreen(
@@ -246,12 +247,15 @@ fun LoginScreen(
             Button(
                 onClick =
                 {
-                    Log.d("LoginScreen", "Email: ${email.value}, Password: ${password.value}");
-                    sendRequest(
-                        email = email.value, 
-                        password = password.value, 
-                        profileState = profileState
-                    );
+                    Log.d("LoginScreenDebug", "Email: ${email.value}, Password: ${password.value}");
+
+                    Timber.i("printing hi");
+
+//                    sendRequest(
+//                        email = email.value,
+//                        password = password.value,
+//                        profileState = profileState
+//                    );
 
 
                 },
