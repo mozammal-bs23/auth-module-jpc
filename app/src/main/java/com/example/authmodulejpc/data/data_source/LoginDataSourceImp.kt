@@ -1,22 +1,22 @@
 // LoginScreen.kt
-package com.example.authmodulejpc.presentation.auth
+package com.example.authmodulejpc.data.data_source
 
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import com.example.authmodulejpc.api.RestClient
 import com.example.authmodulejpc.data.model.RequestModel
-import com.example.authmodulejpc.data.model.ResponseModel
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import timber.log.Timber
 
 fun sendRequest(
     email: String,
     password: String,
-    profileState: MutableState<ResponseModel?>,
+    profileState: MutableState<LoginResponseDataModel?>,
     errorState: MutableState<String?> // Add this state to capture error messages
 ) {
-    Log.d("Login", "sendRequest: $email")
+    Timber.tag("Login").d("sendRequest: %s", email)
 
     val call = RestClient.api.login(
         RequestModel(
@@ -28,22 +28,22 @@ fun sendRequest(
         )
     )
 
-    call.enqueue(object : Callback<ResponseModel> {
-        override fun onResponse(call: Call<ResponseModel>, response: Response<ResponseModel>) {
+    call.enqueue(object : Callback<LoginResponseDataModel> {
+        override fun onResponse(call: Call<LoginResponseDataModel>, response: Response<LoginResponseDataModel>) {
             if (response.isSuccessful) {
                 profileState.value = response.body()
                 errorState.value = null // Clear any previous error messages
-                Log.d("Login", "Success: ${response.body()?.user?.firstname}")
+                Timber.tag("Login").d("Success: %s", response.body()?.user?.firstname)
             } else {
                 val errorBody = response.errorBody()?.string()
                 errorState.value = errorBody ?: "Unknown error occurred"
-                Log.d("Login", "Error: ${response.message()}")
+                Timber.tag("Login").d("Error: %s", response.message())
             }
         }
 
-        override fun onFailure(call: Call<ResponseModel>, t: Throwable) {
+        override fun onFailure(call: Call<LoginResponseDataModel>, t: Throwable) {
             errorState.value = t.message ?: "Network error occurred"
-            Log.d("Login", "Failure: ${t.message}")
+            Timber.tag("Login").d("Failure: %s", t.message)
         }
     })
 }

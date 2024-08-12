@@ -1,6 +1,5 @@
 package com.example.authmodulejpc.presentation.auth
 
-import android.telecom.Call
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -13,7 +12,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -41,14 +39,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.authmodulejpc.R
 import com.example.authmodulejpc.api.UserApi
+import com.example.authmodulejpc.data.data_source.LoginResponseDataModel
 import com.example.authmodulejpc.data.model.RequestModel
-import com.example.authmodulejpc.data.model.ResponseModel
 import com.example.authmodulejpc.ui.components.InputFieldWithLabel
 import com.example.authmodulejpc.ui.components.PageName
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import timber.log.Timber
 
 @Composable
@@ -60,7 +57,7 @@ fun LoginScreen(
     var checked by remember { mutableStateOf(false) }
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
-    val profileState = remember { mutableStateOf<ResponseModel?>(null) }
+    val profileState = remember { mutableStateOf<LoginResponseDataModel?>(null) }
     val errorState = remember { mutableStateOf<String?>(null) } 
 
 
@@ -251,11 +248,11 @@ fun LoginScreen(
 
                     Timber.i("printing hi");
 
-//                    sendRequest(
-//                        email = email.value,
-//                        password = password.value,
-//                        profileState = profileState
-//                    );
+                    sendRequest(
+                        email = email.value,
+                        password = password.value,
+                        profileState = profileState
+                    );
 
 
                 },
@@ -299,42 +296,47 @@ fun LoginScreen(
 fun sendRequest(
     email : String,
     password : String,
-    profileState: MutableState<ResponseModel?>,
+    profileState: MutableState<LoginResponseDataModel?>,
 ) {
-    Log.d("Login", "sendRequest: $email");
+    Timber.tag("Login Credentials").d("sendRequest: %s", email);
+    Timber.tag("Login Credentials").d("sendRequest: %s", password);
 
     val retrofit = Retrofit.Builder()
-        .baseUrl("http://34.72.136.54:4067/api/v1/auth/login")
+        .baseUrl("http://34.72.136.54:4067/api/v1/auth/")
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
     val api = retrofit.create(UserApi::class.java)
 
     val call = api.login(
-         RequestModel(
+        RequestModel(
             email = email,
             password = password,
-            OS = "OS",
+            OS = "IOS",
             model = "model1",
             FCMToken = "FCMToken"
         )
-    )
+    );
 
-    call.enqueue(object : retrofit2.Callback<ResponseModel> {
+    Timber.tag("Login Request").d("sendRequest: %s", call.request().body);
+
+    call.enqueue(object : retrofit2.Callback<LoginResponseDataModel> {
         override fun onResponse(
-            call: retrofit2.Call<ResponseModel>,
-            response: retrofit2.Response<ResponseModel>
+            call: retrofit2.Call<LoginResponseDataModel>,
+            response: Response<LoginResponseDataModel>
         ) {
+            Timber.d("Login Response: %s", response.raw().toString());
+
             if (response.isSuccessful) {
                 profileState.value = response.body()!!
-                Log.d("Login", "Success: ${response.body()?.user?.firstname}")
+                Timber.tag("Login Success").d("Success: %s", response.body()?.user?.firstname)
             } else {
-                Log.d("Login", "Error: ${response.message()}")
+                Timber.e("Login Failure: %s", response.errorBody()?.string());
             }
         }
 
-        override fun onFailure(call: retrofit2.Call<ResponseModel>, t: Throwable) {
-            Log.d("Login", "Failure: ${t.message}")
+        override fun onFailure(call: retrofit2.Call<LoginResponseDataModel>, t: Throwable) {
+            Timber.tag("Login Failure").d("Failure: %s", t.message)
         }
     })
 

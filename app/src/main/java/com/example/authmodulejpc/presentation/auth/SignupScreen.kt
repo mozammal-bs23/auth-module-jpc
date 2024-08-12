@@ -25,7 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.authmodulejpc.data.model.ResponseModel
+import com.example.authmodulejpc.data.data_source.LoginResponseDataModel
 import com.example.authmodulejpc.ui.components.InputFieldWithLabel
 import com.example.authmodulejpc.ui.components.PageName
 
@@ -38,7 +38,7 @@ fun SignUpScreen(
     val email = remember { mutableStateOf("") }
     val name = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
-    val profileState = remember { mutableStateOf<ResponseModel?>(null) }
+    val profileState = remember { mutableStateOf<LoginResponseDataModel?>(null) }
     val confirmPassword = remember { mutableStateOf("") }
 
     Column(
